@@ -4,13 +4,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane fx:id="anchor" prefHeight="390.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="600.0">
         <menus>
           <Menu mnemonicParsing="false" text="Maze">
             <items>
-              <MenuItem mnemonicParsing="false" text="Generate Maze" />
+              <MenuItem fx:id="generateGrid" mnemonicParsing="false" onAction="#generateGrid" text="Generate Grid" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Solver">
@@ -26,6 +26,5 @@
         </menus>
       </MenuBar>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dfdfdf" height="370.0" layoutY="28.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="20.0" layoutY="28.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
    </children>
 </AnchorPane>
