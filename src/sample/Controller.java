@@ -19,7 +19,15 @@ public class Controller {
     AnchorPane anchor;
     Rectangle[][] grid=new Rectangle[18][30];
 
+    private boolean isGrid=false;
+    
+    private void isGridSet(){
+        isGrid=true;
+    }
+
+    //generates new grid and populates grid array appropriately
     public void generateGrid(ActionEvent actionEvent) {
+        clearGrid();
         for(int j=0;j<18;j++) {
             for (int i = 0; i < 30; i++) {
                 Rectangle rect = new Rectangle(i * 20, (20*j) + 28, 20, 20);
@@ -37,11 +45,19 @@ public class Controller {
                 ptr.play();
             }
         }
-
-
+        isGridSet();
     }
 
-    public void clearGrid(){
-        grid[0][0].rem
+    //clears old grid if new one is being generated:
+    private void clearGrid(){
+        if(isGrid){
+            for(int i=0;i<18;i++) {
+                for(int j=0;j<30;j++) {
+                    anchor.getChildren().remove(grid[i][j]);
+                }
+            }
+        }else {
+            return;
+        }
     }
 }
