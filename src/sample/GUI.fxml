@@ -11,7 +11,7 @@
           <Menu mnemonicParsing="false" text="Maze">
             <items>
               <MenuItem fx:id="generateGrid" mnemonicParsing="false" onAction="#generateGrid" text="Generate Grid" />
-                <MenuItem fx:id="generateMaze" mnemonicParsing="false" onAction="#generateGrid" text="Generate Maze" />
+                <MenuItem fx:id="generateMaze" mnemonicParsing="false" onAction="#generateMaze1" text="Generate Maze" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Solver">
