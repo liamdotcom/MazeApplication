@@ -15,12 +15,16 @@ import java.util.Random;
 
 public class Controller {
 
+    private int xSize=18;
+    private int ySize=30;
     @FXML
     AnchorPane anchor;
-    Rectangle[][] grid=new Rectangle[18][30];
+    Rectangle[][] grid=new Rectangle[xSize][ySize];
 
     private boolean isGrid=false;
     private boolean isMaze=false;
+    private boolean isNodes=false;
+    private int startNodeX, startNodeY, endNodeX, endNodeY;
 
     private void isGridSet(){
         isGrid=true;
@@ -30,8 +34,17 @@ public class Controller {
         isMaze=true;
     }
 
+    private void isNodesSet(int startNodeX, int startNodeY, int endNodeX, int endNodeY){
+        isNodes=true;
+        this.startNodeX=startNodeX;
+        this.startNodeY=startNodeY;
+        this.endNodeX=endNodeX;
+        this.endNodeY=endNodeY;
+    }
+
     //generates new grid and populates grid array appropriately
     public void generateGrid(ActionEvent actionEvent) {
+
         clearGrid();
         for(int j=0;j<18;j++) {
             for (int i = 0; i < 30; i++) {
@@ -49,6 +62,24 @@ public class Controller {
             }
         }
         isGridSet();
+    }
+
+    public void generateStartAndEnd(ActionEvent actionEvent){
+        int startX, startY, endX, endY;
+        if(isNodes){
+            grid[startNodeX][startNodeY].setFill(Color.WHITE);
+            grid[endNodeX][endNodeY].setFill(Color.WHITE);
+        }
+        Random rand=new Random();
+        do {
+            startX = rand.nextInt(xSize - 1) + 1;
+            startY = rand.nextInt(ySize - 1) + 1;
+            endX=rand.nextInt(xSize-1)+1;
+            endY=rand.nextInt(ySize-1)+1;
+        }while(Math.sqrt(Math.pow((startX-endX), 2)+Math.pow((startY-endY), 2))<10 || startY==ySize-1 || endY==ySize-1 || startX==xSize-1 || endX==xSize-1);
+        grid[startX][startY].setFill(Color.BLUE);
+        grid[endX][endY].setFill(Color.RED);
+        isNodesSet(startX, startY, endX, endY);
     }
 
     //clears old grid if new one is being generated:
@@ -76,11 +107,12 @@ public class Controller {
         }
         isMazeSet();
         outline();
-        //recursiveDivision(0, 18, 0, 30);
         recursiveQuadrant(0, 29, 0, 17);
-
     }
 
+
+
+    //maze generation algorithims:
     public void recursiveQuadrant(int startX, int endX, int startY, int endY){
         Random rand=new Random();
         KeyFrame keyFrame;
@@ -163,7 +195,6 @@ public class Controller {
 
             }
         }
-
 
     }
 
