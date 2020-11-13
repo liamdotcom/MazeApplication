@@ -10,16 +10,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import javax.swing.*;
+import java.util.HashMap;
+import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Controller {
 
-    private int xSize=18;
-    private int ySize=30;
+    private int ySize=18;
+    private int xSize=30;
     @FXML
     AnchorPane anchor;
-    Rectangle[][] grid=new Rectangle[xSize][ySize];
+    Rectangle[][] grid=new Rectangle[ySize][xSize];
+
 
     private boolean isGrid=false;
     private boolean isMaze=false;
@@ -67,8 +72,8 @@ public class Controller {
     public void generateStartAndEnd(ActionEvent actionEvent){
         int startX, startY, endX, endY;
         if(isNodes){
-            grid[startNodeX][startNodeY].setFill(Color.WHITE);
-            grid[endNodeX][endNodeY].setFill(Color.WHITE);
+            grid[startNodeY][startNodeX].setFill(Color.WHITE);
+            grid[endNodeY][endNodeX].setFill(Color.WHITE);
         }
         Random rand=new Random();
         do {
@@ -77,8 +82,8 @@ public class Controller {
             endX=rand.nextInt(xSize-1)+1;
             endY=rand.nextInt(ySize-1)+1;
         }while(Math.sqrt(Math.pow((startX-endX), 2)+Math.pow((startY-endY), 2))<10 || startY==ySize-1 || endY==ySize-1 || startX==xSize-1 || endX==xSize-1);
-        grid[startX][startY].setFill(Color.BLUE);
-        grid[endX][endY].setFill(Color.RED);
+        grid[startY][startX].setFill(Color.BLUE);
+        grid[endY][endX].setFill(Color.RED);
         isNodesSet(startX, startY, endX, endY);
     }
 
@@ -108,6 +113,24 @@ public class Controller {
         isMazeSet();
         outline();
         recursiveQuadrant(0, 29, 0, 17);
+    }
+
+    public void generateMaze2(ActionEvent actionEvent) {
+        int orientation=0;//1=vertical 0=horizontal
+        if(!isGrid){
+            generateGrid(actionEvent);
+        }
+
+        if(isMaze){
+            clearGrid();
+            generateGrid(actionEvent);
+        }
+        isMazeSet();
+        outline();
+        if(xSize>ySize){
+            orientation=0;
+        }
+        recursiveDivision(0, 29, 0, 17, orientation);
     }
 
 
@@ -151,11 +174,11 @@ public class Controller {
             }else{
                 keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, startY, rY));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO+1, endX, startY, rY));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, startY, rY));
                 timeline.getKeyFrames().add(keyFrame);
                 keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, rY, endY));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO+1, endX, rY, endY));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, rY, endY));
                 timeline.getKeyFrames().add(keyFrame);
                 timeline.play();
             }
@@ -198,6 +221,9 @@ public class Controller {
 
     }
 
+    public void recursiveDivision(int startX, int endX, int startY, int endY, int orientation){
+
+    }
 
 
     public void outline(){
@@ -220,4 +246,113 @@ public class Controller {
             }
         }
     }
+
+
+    //maze solving algorithims:
+    public void solveRandomly(ActionEvent actionEvent){
+        solveRandom(startNodeX, startNodeY);
+    }
+
+    public void solveRandom(int x, int y){
+        if(grid[y][x].getFill()==Color.RED){
+            grid[y][x].setFill(Color.GREEN);
+            return;
+        }
+        Timeline timeline = new Timeline();
+        Duration timepoint = Duration.ZERO ;
+        Duration pause = Duration.millis(100);
+        KeyFrame keyFrame;
+        if(grid[y][x].getFill()==Color.GREEN) {
+            grid[y][x].setFill(Color.YELLOW);
+        }else{
+            grid[y][x].setFill(Color.GREEN);
+        }
+        int newX=0, newY=0;
+        int found=0;
+        do {
+            int direction = ThreadLocalRandom.current().nextInt(1, 4 + 1);
+            switch(direction){
+                case 1://up
+                    if(grid[y][x-1].getFill()!=Color.BLACK){
+                        found=1;
+                        newX=x;
+                        newY=y-1;
+                    }
+                    break;
+                case 2://right
+                    if(grid[x+1][y].getFill()!=Color.BLACK){
+                        found=1;
+                        newX=x+1;
+                        newY=y;
+                    }
+                    break;
+                case 3://down
+                    if(grid[x][y+1].getFill()!=Color.BLACK){
+                        found=1;
+                        newX=x;
+                        newY=y+1;
+                    }
+                    break;
+                case 4://left
+                    if(grid[x-1][y].getFill()!=Color.BLACK){
+                        found=1;
+                        newX=x-1;
+                        newY=y;
+                    }
+                    break;
+            }
+        }while(found==0);
+        int finalX=newX, finalY=newY;
+        timepoint = timepoint.add(pause);
+        keyFrame = new KeyFrame(timepoint, e -> solveRandom(finalX,finalY));
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.play();
+        }
+
+
+
+
+        /*public void solveDFS(int x, int y){
+            Timeline timeline = new Timeline();
+            Duration timepoint = Duration.ZERO ;
+            Duration pause = Duration.millis(180);
+            KeyFrame keyFrame;
+            if(x==endNodeX && y==endNodeY){
+                grid[x][y].setFill(Color.GREEN);
+                return;
+            }
+            if(grid[endNodeX][endNodeY].getFill()==Color.GREEN){
+                return;
+            }
+            grid[x][y].setFill(Color.GREEN);
+            if(grid[x][y-1].getFill()==Color.WHITE || grid[x][y-1].getFill()==Color.RED){//up
+                timepoint = timepoint.add(pause);
+                keyFrame = new KeyFrame(timepoint, e -> solveBFS(grid, x,y-1, endNodeX, endNodeY));
+                timeline.getKeyFrames().add(keyFrame);
+            }
+            if(grid[x+1][y].getFill()==Color.WHITE || grid[x+1][y].getFill()==Color.RED){//right
+                timepoint = timepoint.add(pause);
+                keyFrame = new KeyFrame(timepoint, e -> solveBFS(grid, x+1,y, endNodeX, endNodeY));
+                timeline.getKeyFrames().add(keyFrame);
+            }
+            if(grid[x][y+1].getFill()==Color.WHITE || grid[x][y+1].getFill()==Color.RED){//down
+                timepoint = timepoint.add(pause);
+                keyFrame = new KeyFrame(timepoint, e -> solveBFS(grid, x,y+1, endNodeX, endNodeY));
+                timeline.getKeyFrames().add(keyFrame);
+            }
+            if(grid[x-1][y].getFill()==Color.WHITE || grid[x-1][y].getFill()==Color.RED){//left
+                timepoint = timepoint.add(pause);
+                keyFrame = new KeyFrame(timepoint, e -> solveBFS(grid, x-1,y, endNodeX, endNodeY));
+                timeline.getKeyFrames().add(keyFrame);
+            }
+            timeline.play();
+        }*/
+
+
+    public void depthFirstSearch(ActionEvent actionEvent) {
+        BFS.solveBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY);
+    }
+
+
 }
+
