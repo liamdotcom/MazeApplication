@@ -12,14 +12,14 @@
             <items>
               <MenuItem fx:id="generateGrid" mnemonicParsing="false" onAction="#generateGrid" text="Generate Grid" />
                 <MenuItem fx:id="generateMaze" mnemonicParsing="false" onAction="#generateMaze1" text="Generate Maze (Quadrant Division)" />
-                  <MenuItem mnemonicParsing="false" onAction="#generateMaze2" text="Generate Maze (Recursive Division)" />
+                  <MenuItem mnemonicParsing="false" onAction="#generateMaze2" text="Generate Maze (Prim's Algorithim)" />
                   <MenuItem fx:id="GenerateStartAndEnd" mnemonicParsing="false" onAction="#generateStartAndEnd" text="Generate Start and End Node" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Solver">
             <items>
               <MenuItem fx:id="solveRandomly" mnemonicParsing="false" onAction="#solveRandomly" text="Solve Randomly" />
-                  <MenuItem fx:id="depthFirstSeach" mnemonicParsing="false" onAction="#depthFirstSearch" text="Depth First Search" />
+                  <MenuItem fx:id="depthFirstSeach" mnemonicParsing="false" onAction="#depthFirstSearch" text="Breadth First Search" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

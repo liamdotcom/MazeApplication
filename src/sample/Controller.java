@@ -51,8 +51,8 @@ public class Controller {
     public void generateGrid(ActionEvent actionEvent) {
 
         clearGrid();
-        for(int j=0;j<18;j++) {
-            for (int i = 0; i < 30; i++) {
+        for(int j=0;j<ySize;j++) {
+            for (int i = 0; i < xSize; i++) {
                 Rectangle rect = new Rectangle(i * 20, (20*j) + 28, 20, 20);
                 rect.setFill(Color.WHITE);
                 rect.setStroke(Color.BLACK);
@@ -90,8 +90,8 @@ public class Controller {
     //clears old grid if new one is being generated:
     private void clearGrid(){
         if(isGrid){
-            for(int i=0;i<18;i++) {
-                for(int j=0;j<30;j++) {
+            for(int i=0;i<ySize;i++) {
+                for(int j=0;j<xSize;j++) {
                     anchor.getChildren().remove(grid[i][j]);
                 }
             }
@@ -126,11 +126,8 @@ public class Controller {
             generateGrid(actionEvent);
         }
         isMazeSet();
-        outline();
-        if(xSize>ySize){
-            orientation=0;
-        }
-        recursiveDivision(0, 29, 0, 17, orientation);
+
+        Prim.generatePrim(grid, xSize, ySize);
     }
 
 
