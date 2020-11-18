@@ -29,7 +29,7 @@ public class Controller {
     private boolean isGrid=false;
     private boolean isMaze=false;
     private boolean isNodes=false;
-    private int startNodeX, startNodeY, endNodeX, endNodeY;
+    private int startNodeX=0, startNodeY=0, endNodeX=0, endNodeY=0;
 
     private void isGridSet(){
         isGrid=true;
@@ -100,8 +100,11 @@ public class Controller {
         }
     }
 
+    //Recursive Quadrant maze generator:
     public void generateMaze1(ActionEvent actionEvent) {
-
+        if(isNodes){
+            isNodes=false;
+        }
         if(!isGrid){
             generateGrid(actionEvent);
         }
@@ -112,11 +115,15 @@ public class Controller {
         }
         isMazeSet();
         outline();
-        recursiveQuadrant(0, 29, 0, 17);
+        RecursiveQuadrant.recursiveQuadrant(0, xSize-1, 0, ySize-1, grid);
     }
 
+    //Prim's Algorithim maze generator:
     public void generateMaze2(ActionEvent actionEvent) {
         int orientation=0;//1=vertical 0=horizontal
+        if(isNodes){
+            isNodes=false;
+        }
         if(!isGrid){
             generateGrid(actionEvent);
         }
@@ -133,96 +140,10 @@ public class Controller {
 
 
     //maze generation algorithims:
-    public void recursiveQuadrant(int startX, int endX, int startY, int endY){
-        Random rand=new Random();
-        KeyFrame keyFrame;
-        int randomY, randomX, randomOpening;
-        int height=endY-startY;
-        int width=endX-startX;
-        Timeline timeline = new Timeline();
-        Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(100);
-        if((height<=3 && width<=3) || height==1 || width==1){
-            return;
-        }
-        if(height>width){//horizontal bisection
-            do{
-                randomY=rand.nextInt(endY-startY)+startY;
-            }while(randomY==startY || randomY==startY+1 || randomY==endY-1);
-            do{
-                randomOpening=rand.nextInt(endX-startX)+startX;
-            }while(randomOpening==startX);
-            for(int i=startX;i<endX;i++){
-                if(i!=randomOpening){
-                    Rectangle r=grid[randomY][i];
-                    timepoint = timepoint.add(pause);
-                    keyFrame = new KeyFrame(timepoint, e -> r.setFill(Color.BLACK));
-                    timeline.getKeyFrames().add(keyFrame);
-                }
-            }
-            int rY=randomY;
-            int rO=randomOpening;
-            if(randomOpening==endX-1 || randomOpening==startX+1) {
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, endX, startY, rY));
-                timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, endX, rY, endY));
-                timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
-            }else{
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, startY, rY));
-                timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, startY, rY));
-                timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, rY, endY));
-                timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, rY, endY));
-                timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
-            }
-        }else{//vertical bisection
-            do {
-                randomX = rand.nextInt(endX-startX)+startX;
-            }while(randomX==startX || randomX==startX+1 ||randomX==endX-1);
-            do {
-                randomOpening = rand.nextInt(endY-startY)+startY;
-            }while(randomOpening==startY);
-            for(int i=startY;i<endY;i++){
-                if(i!=randomOpening) {
-                    Rectangle r=grid[i][randomX];
-                    timepoint = timepoint.add(pause);
-                    keyFrame = new KeyFrame(timepoint, e -> r.setFill(Color.BLACK));
-                    timeline.getKeyFrames().add(keyFrame);
-                }
-            }
-            int rX=randomX;
-            int rO=randomOpening;
-            if(randomOpening==endY-1 || randomOpening==startY+1) {
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, startY, endY));
-                timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, startY, endY));
-                timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
-            }else{
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, startY, rO));
-                timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, startY, rO));
-                timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, rO, endY));
-                timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, rO, endY));
-                timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
-
-            }
-        }
-
-    }
-
-    public void recursiveDivision(int startX, int endX, int startY, int endY, int orientation){
-
-    }
 
 
+
+    //Outine the maze:
     public void outline(){
 
         for(int i=0;i<18;i++){
@@ -309,47 +230,22 @@ public class Controller {
 
 
 
-        /*public void solveDFS(int x, int y){
-            Timeline timeline = new Timeline();
-            Duration timepoint = Duration.ZERO ;
-            Duration pause = Duration.millis(180);
-            KeyFrame keyFrame;
-            if(x==endNodeX && y==endNodeY){
-                grid[x][y].setFill(Color.GREEN);
-                return;
-            }
-            if(grid[endNodeX][endNodeY].getFill()==Color.GREEN){
-                return;
-            }
-            grid[x][y].setFill(Color.GREEN);
-            if(grid[x][y-1].getFill()==Color.WHITE || grid[x][y-1].getFill()==Color.RED){//up
-                timepoint = timepoint.add(pause);
-                keyFrame = new KeyFrame(timepoint, e -> solveBFS(grid, x,y-1, endNodeX, endNodeY));
-                timeline.getKeyFrames().add(keyFrame);
-            }
-            if(grid[x+1][y].getFill()==Color.WHITE || grid[x+1][y].getFill()==Color.RED){//right
-                timepoint = timepoint.add(pause);
-                keyFrame = new KeyFrame(timepoint, e -> solveBFS(grid, x+1,y, endNodeX, endNodeY));
-                timeline.getKeyFrames().add(keyFrame);
-            }
-            if(grid[x][y+1].getFill()==Color.WHITE || grid[x][y+1].getFill()==Color.RED){//down
-                timepoint = timepoint.add(pause);
-                keyFrame = new KeyFrame(timepoint, e -> solveBFS(grid, x,y+1, endNodeX, endNodeY));
-                timeline.getKeyFrames().add(keyFrame);
-            }
-            if(grid[x-1][y].getFill()==Color.WHITE || grid[x-1][y].getFill()==Color.RED){//left
-                timepoint = timepoint.add(pause);
-                keyFrame = new KeyFrame(timepoint, e -> solveBFS(grid, x-1,y, endNodeX, endNodeY));
-                timeline.getKeyFrames().add(keyFrame);
-            }
-            timeline.play();
-        }*/
 
 
-    public void depthFirstSearch(ActionEvent actionEvent) {
+
+    public void breadthFirstSearch(ActionEvent actionEvent) {
+        if(!isNodes){
+            generateStartAndEnd(actionEvent);
+        }
         BFS.solveBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY);
     }
 
 
+    public void greedySearch(ActionEvent actionEvent) {
+        if(!isNodes){
+            generateStartAndEnd(actionEvent);
+        }
+        GreedySearch.solveGBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY);
+    }
 }
 
