@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import static java.lang.Math.*;
 
 public class GreedySearch {
-    public static void solveGBFS(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY){
-        Timeline tl=new Timeline();
-        Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(180);
-        KeyFrame keyFrame;
-        Coord[] prev;
-        prev=solve(grid, x, y,endNodeX ,endNodeY);
+
+    static int xSize;
+    static int ySize;
+    public static void solveGBFS(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, int xS, int yS){
+        xSize=xS;
+        ySize=yS;
+        solve(grid, x, y,endNodeX ,endNodeY);
 
 
     }
@@ -25,7 +25,7 @@ public class GreedySearch {
         grid[y][x].setFill(Color.YELLOW);
         Coord start=new Coord(y, x);
         Coord iterator=new Coord(endNodeY, endNodeX);
-        Coord[] path=new Coord[2000];
+        Coord[] path=new Coord[10000];
         int i=0;
 
         while(iterator.getX()!=x || iterator.getY()!=y){
@@ -48,14 +48,14 @@ public class GreedySearch {
         tl.play();
     }
 
-    public static Coord[] solve(Rectangle[][] grid, int x, int y, int actualEndNodeX, int actualEndNodeY){
+    public static void solve(Rectangle[][] grid, int x, int y, int actualEndNodeX, int actualEndNodeY){
         Timeline tl=new Timeline();
         int endNodeX=0, endNodeY=0;
         boolean found=false;
         Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(30);
+        Duration pause = Duration.millis(60);
         KeyFrame keyFrame;
-        Coord[] prev=new Coord[2000];
+        Coord[] prev=new Coord[10000];
         ArrayList<Coord> visited=new ArrayList<>();
         ArrayList<Rectangle> q=new ArrayList<>();
         q.add(grid[y][x]);
@@ -79,7 +79,6 @@ public class GreedySearch {
         int finalEndNodeX = endNodeX;
         int finalEndNodeY = endNodeY;
         tl.setOnFinished(e -> reconstructPath(grid, x, y, finalEndNodeX, finalEndNodeY, prev));
-        return prev;
     }
 
     public static void reorderQ(ArrayList<Rectangle> q, int endNodeX, int endNodeY, Rectangle[][] grid){
@@ -131,8 +130,8 @@ public class GreedySearch {
     }
 
     public static Coord findRect(Rectangle rect, Rectangle[][] grid){
-        for(int y=0;y<18;y++){
-            for(int x=0;x<29;x++){
+        for(int y=0;y<ySize;y++){
+            for(int x=0;x<xSize;x++){
                 if(rect.getX()==grid[y][x].getX() && rect.getY()==grid[y][x].getY()){
                     return new Coord(y,x);
                 }

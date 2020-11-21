@@ -39,7 +39,7 @@ public class Prim {
     public static void startGen(Rectangle[][] grid, Coord start, int xSize, int ySize){
         Timeline tl=new Timeline();
         Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(20);
+        Duration pause = Duration.millis(10);
         KeyFrame keyFrame;
         ArrayList<Coord> q=new ArrayList<>();
         ArrayList<Coord> visited=new ArrayList<>();

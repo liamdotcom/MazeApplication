@@ -2,11 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 
 <AnchorPane fx:id="anchor" prefHeight="390.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="600.0">
+      <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="1000.0">
         <menus>
           <Menu mnemonicParsing="false" text="Maze">
             <items>
@@ -30,6 +29,5 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dfdfdf" height="370.0" layoutY="28.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
    </children>
 </AnchorPane>

@@ -12,14 +12,13 @@ import java.util.Queue;
 
 public class BFS {
 
+    static int xSize;
+    static int ySize;
 
-    public static void solveBFS(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY){
-        Timeline tl=new Timeline();
-        Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(180);
-        KeyFrame keyFrame;
-        Coord[] prev;
-        prev=solve(grid, x, y);
+    public static void solveBFS(Rectangle[][] grid, int x, int y, int xS, int yS){
+        xSize=xS;
+        ySize=yS;
+        solve(grid, x, y);
 
 
     }
@@ -27,7 +26,7 @@ public class BFS {
     public static void reconstructPath(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, Coord[] prev){
         Coord start=new Coord(y, x);
         Coord iterator=new Coord(endNodeY, endNodeX);
-        Coord[] path=new Coord[2000];
+        Coord[] path=new Coord[10000];
         int i=0;
 
         while(iterator.getX()!=x || iterator.getY()!=y){
@@ -50,14 +49,14 @@ public class BFS {
         tl.play();
     }
 
-    public static Coord[] solve(Rectangle[][] grid, int x, int y){
+    public static void solve(Rectangle[][] grid, int x, int y){
         Timeline tl=new Timeline();
         int endNodeX=0, endNodeY=0;
         boolean found=false;
         Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(30);
+        Duration pause = Duration.millis(10);
         KeyFrame keyFrame;
-        Coord[] prev=new Coord[2000];
+        Coord[] prev=new Coord[10000];
         ArrayList<Coord> visited=new ArrayList<>();
         Queue<Rectangle> q=new LinkedList<>();
         q.add(grid[y][x]);
@@ -79,7 +78,6 @@ public class BFS {
         int finalEndNodeX = endNodeX;
         int finalEndNodeY = endNodeY;
         tl.setOnFinished(e -> reconstructPath(grid, x, y, finalEndNodeX, finalEndNodeY, prev));
-        return prev;
     }
 
 
@@ -112,8 +110,8 @@ public class BFS {
     }
 
     public static Coord findRect(Rectangle rect, Rectangle[][] grid){
-        for(int y=0;y<18;y++){
-            for(int x=0;x<29;x++){
+        for(int y=0;y<ySize;y++){
+            for(int x=0;x<xSize-1;x++){
                 if(rect.getX()==grid[y][x].getX() && rect.getY()==grid[y][x].getY()){
                     return new Coord(y,x);
                 }

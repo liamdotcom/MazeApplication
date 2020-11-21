@@ -19,8 +19,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Controller {
 
-    private int ySize=18;
-    private int xSize=30;
+    private int ySize=28;
+    private int xSize=50;
     @FXML
     AnchorPane anchor;
     Rectangle[][] grid=new Rectangle[ySize][xSize];
@@ -67,6 +67,7 @@ public class Controller {
             }
         }
         isGridSet();
+        outline();
     }
 
     public void generateStartAndEnd(ActionEvent actionEvent){
@@ -81,7 +82,7 @@ public class Controller {
             startY = rand.nextInt(ySize - 1) + 1;
             endX=rand.nextInt(xSize-1)+1;
             endY=rand.nextInt(ySize-1)+1;
-        }while(Math.sqrt(Math.pow((startX-endX), 2)+Math.pow((startY-endY), 2))<10 || startY==ySize-1 || endY==ySize-1 || startX==xSize-1 || endX==xSize-1);
+        }while(Math.sqrt(Math.pow((startX-endX), 2)+Math.pow((startY-endY), 2))<20 || startY==ySize-1 || endY==ySize-1 || startX==xSize-1 || endX==xSize-1);
         grid[startY][startX].setFill(Color.BLUE);
         grid[endY][endX].setFill(Color.RED);
         isNodesSet(startX, startY, endX, endY);
@@ -89,6 +90,7 @@ public class Controller {
 
     //clears old grid if new one is being generated:
     private void clearGrid(){
+        isNodes=false;
         if(isGrid){
             for(int i=0;i<ySize;i++) {
                 for(int j=0;j<xSize;j++) {
@@ -146,10 +148,10 @@ public class Controller {
     //Outine the maze:
     public void outline(){
 
-        for(int i=0;i<18;i++){
-            for(int j=0;j<30;j++){
-                if((i!=0 && i!=17) && (j>0 && j<29)){
-                    j=29;
+        for(int i=0;i<ySize;i++){
+            for(int j=0;j<xSize;j++){
+                if((i!=0 && i!=ySize-1) && (j>0 && j<xSize-1)){
+                    j=xSize-1;
                 }
                 ScaleTransition sctr =new ScaleTransition(Duration.millis(1000), grid[i][j]);
                 sctr.setByX(-0.2);
@@ -237,7 +239,7 @@ public class Controller {
         if(!isNodes){
             generateStartAndEnd(actionEvent);
         }
-        BFS.solveBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY);
+        BFS.solveBFS(grid, startNodeX, startNodeY, xSize, ySize);
     }
 
 
@@ -245,7 +247,7 @@ public class Controller {
         if(!isNodes){
             generateStartAndEnd(actionEvent);
         }
-        GreedySearch.solveGBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY);
+        GreedySearch.solveGBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY, xSize, ySize);
     }
 }
 
