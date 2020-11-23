@@ -147,10 +147,10 @@ public class GreedySearch {
     }
 
     public static void visit(Rectangle[][] grid, Coord c){
-        if(grid[c.getY()][c.getX()].getFill()==Color.CADETBLUE){
+        if(grid[c.getY()][c.getX()].getFill()==Color.LAWNGREEN){
             grid[c.getY()][c.getX()].setFill(Color.AQUAMARINE);
         }else {
-            grid[c.getY()][c.getX()].setFill(Color.CADETBLUE);
+            grid[c.getY()][c.getX()].setFill(Color.LAWNGREEN);
         }
     }
 

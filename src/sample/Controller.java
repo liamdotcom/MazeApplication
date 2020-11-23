@@ -22,6 +22,7 @@ public class Controller {
     private boolean isGrid=false;
     private boolean isMaze=false;
     private boolean isNodes=false;
+    private boolean isSolved=false;
     private static boolean animationActive=false;
     private int startNodeX=0, startNodeY=0, endNodeX=0, endNodeY=0;
 
@@ -90,6 +91,7 @@ public class Controller {
     //Recursive Quadrant maze generator:
     public void generateMaze1(ActionEvent actionEvent) {
         if(!animationActive) {
+            isSolved=false;
             if (isNodes) {
                 isNodes = false;
             }
@@ -110,6 +112,7 @@ public class Controller {
     //Prim's Algorithim maze generator:
     public void generateMaze2(ActionEvent actionEvent) {
         if(!animationActive) {
+            isSolved=false;
             if (isNodes) {
                 isNodes = false;
             }
@@ -182,18 +185,50 @@ public class Controller {
             generateStartAndEnd(actionEvent);
         }
         if(!animationActive) {
+            if(isSolved){
+                resetToUnsolved();
+            }
             BFS.solveBFS(grid, startNodeX, startNodeY, xSize, ySize);
+            isSolved=true;
         }
     }
 
 
     public void greedySearch(ActionEvent actionEvent) {
-        if(!isNodes){
+
+        if (!isNodes) {
             generateStartAndEnd(actionEvent);
         }
-        if(!animationActive) {
+
+        if (!animationActive) {
+            if(isSolved) {
+                resetToUnsolved();
+            }
             GreedySearch.solveGBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY, xSize, ySize);
+            isSolved=true;
         }
+
     }
+
+
+    public void resetToUnsolved(){
+        for(int i=0;i<ySize;i++){
+            for(int j=0;j<xSize;j++){
+                if(grid[i][j].getFill()!=Color.BLACK){
+                    if(i==startNodeY && j==startNodeX){
+                        grid[i][j].setFill(Color.BLUE);
+                    }else if(i==endNodeY && j==endNodeX){
+                        grid[i][j].setFill(Color.RED);
+                    }else {
+                        grid[i][j].setFill(Color.WHITE);
+                    }
+                }
+            }
+        }
+        isSolved=false;
+    }
+
 }
+
+
 
