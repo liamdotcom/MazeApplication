@@ -5,16 +5,13 @@ import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Prim {
 
     public static void generatePrim(Rectangle[][] grid, int xSize, int ySize){
+        Controller.setAnimationActive(true);
         Timeline tl=new Timeline();
         Duration timepoint = Duration.ZERO ;
         Duration pause = Duration.millis(3);
@@ -56,6 +53,7 @@ public class Prim {
             }
         }
         tl.play();
+        tl.setOnFinished(e -> Controller.setAnimationActive(false));
     }
 
     public static boolean makePassage(Rectangle[][] grid, Coord c, ArrayList<Coord> visited){

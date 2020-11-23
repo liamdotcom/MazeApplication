@@ -27,6 +27,7 @@
       <change beforePath="$PROJECT_DIR$/src/sample/GreedySearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/GreedySearch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Prim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Prim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/RecursiveQuadrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/RecursiveQuadrant.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,7 +211,8 @@
       <workItem from="1605113724278" duration="42109000" />
       <workItem from="1605712958306" duration="3685000" />
       <workItem from="1605743526646" duration="1070000" />
-      <workItem from="1605970369130" duration="2336000" />
+      <workItem from="1605970369130" duration="3865000" />
+      <workItem from="1606086774876" duration="3911000" />
     </task>
     <servers />
   </component>
@@ -250,22 +252,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="473" y="154" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1605744577562" />
-    <state width="1493" height="153" key="GridCell.Tab.0.bottom" timestamp="1605972645967">
+    <state width="1493" height="153" key="GridCell.Tab.0.bottom" timestamp="1606090345700">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="153" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605972645967" />
-    <state width="1493" height="153" key="GridCell.Tab.0.center" timestamp="1605972645967">
+    <state width="1493" height="153" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606090345700" />
+    <state width="1493" height="153" key="GridCell.Tab.0.center" timestamp="1606090345699">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="153" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605972645967" />
-    <state width="1493" height="153" key="GridCell.Tab.0.left" timestamp="1605972645967">
+    <state width="1493" height="153" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606090345699" />
+    <state width="1493" height="153" key="GridCell.Tab.0.left" timestamp="1606090345699">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="153" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605972645967" />
-    <state width="1493" height="153" key="GridCell.Tab.0.right" timestamp="1605972645967">
+    <state width="1493" height="153" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606090345699" />
+    <state width="1493" height="153" key="GridCell.Tab.0.right" timestamp="1606090345700">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="153" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605972645967" />
+    <state width="1493" height="153" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606090345700" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1605720380398">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -308,18 +310,8 @@
       <breakpoints>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/sample/Main.java</url>
-          <line>16</line>
+          <line>15</line>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sample/GreedySearch.java</url>
-          <line>92</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sample/GreedySearch.java</url>
-          <line>90</line>
-          <option name="timeStamp" value="35" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />

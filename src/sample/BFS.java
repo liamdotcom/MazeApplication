@@ -5,7 +5,6 @@ import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -18,9 +17,8 @@ public class BFS {
     public static void solveBFS(Rectangle[][] grid, int x, int y, int xS, int yS){
         xSize=xS;
         ySize=yS;
+        Controller.setAnimationActive(true);
         solve(grid, x, y);
-
-
     }
 
     public static void reconstructPath(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, Coord[] prev){
@@ -47,6 +45,7 @@ public class BFS {
             tl.getKeyFrames().add(keyFrame);
         }
         tl.play();
+        tl.setOnFinished(e -> Controller.setAnimationActive(false));
     }
 
     public static void solve(Rectangle[][] grid, int x, int y){
@@ -125,10 +124,10 @@ public class BFS {
     }
 
     public static void visit(Rectangle[][] grid, Coord c){
-        if(grid[c.getY()][c.getX()].getFill()==Color.GREEN){
-            grid[c.getY()][c.getX()].setFill(Color.YELLOW);
+        if(grid[c.getY()][c.getX()].getFill()==Color.DARKBLUE){
+            grid[c.getY()][c.getX()].setFill(Color.DARKORCHID);
         }else {
-            grid[c.getY()][c.getX()].setFill(Color.GREEN);
+            grid[c.getY()][c.getX()].setFill(Color.DARKBLUE);
         }
     }
 

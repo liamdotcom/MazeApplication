@@ -2,6 +2,7 @@ package sample;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.control.Control;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -16,13 +17,13 @@ public class GreedySearch {
     public static void solveGBFS(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, int xS, int yS){
         xSize=xS;
         ySize=yS;
+        Controller.setAnimationActive(true);
         solve(grid, x, y,endNodeX ,endNodeY);
-
 
     }
 
     public static void reconstructPath(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, Coord[] prev){
-        grid[y][x].setFill(Color.YELLOW);
+        grid[y][x].setFill(Color.AQUAMARINE);
         Coord start=new Coord(y, x);
         Coord iterator=new Coord(endNodeY, endNodeX);
         Coord[] path=new Coord[10000];
@@ -46,6 +47,7 @@ public class GreedySearch {
             tl.getKeyFrames().add(keyFrame);
         }
         tl.play();
+        tl.setOnFinished(e -> Controller.setAnimationActive(false));
     }
 
     public static void solve(Rectangle[][] grid, int x, int y, int actualEndNodeX, int actualEndNodeY){
@@ -145,10 +147,10 @@ public class GreedySearch {
     }
 
     public static void visit(Rectangle[][] grid, Coord c){
-        if(grid[c.getY()][c.getX()].getFill()==Color.GREEN){
-            grid[c.getY()][c.getX()].setFill(Color.YELLOW);
+        if(grid[c.getY()][c.getX()].getFill()==Color.CADETBLUE){
+            grid[c.getY()][c.getX()].setFill(Color.AQUAMARINE);
         }else {
-            grid[c.getY()][c.getX()].setFill(Color.GREEN);
+            grid[c.getY()][c.getX()].setFill(Color.CADETBLUE);
         }
     }
 

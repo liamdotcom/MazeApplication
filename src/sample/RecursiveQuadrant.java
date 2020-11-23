@@ -11,6 +11,7 @@ import java.util.Random;
 public class RecursiveQuadrant {
 
     public static void recursiveQuadrant(int startX, int endX, int startY, int endY, Rectangle[][] grid){
+        Controller.setAnimationActive(true);
         Random rand=new Random();
         KeyFrame keyFrame;
         int randomY, randomX, randomOpening;
@@ -44,7 +45,6 @@ public class RecursiveQuadrant {
                 timeline.getKeyFrames().add(keyFrame);
                 keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, endX, rY, endY, grid));
                 timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
             }else{
                 keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, startY, rY, grid));
                 timeline.getKeyFrames().add(keyFrame);
@@ -54,7 +54,6 @@ public class RecursiveQuadrant {
                 timeline.getKeyFrames().add(keyFrame);
                 keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, rY, endY, grid));
                 timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
             }
         }else{//vertical bisection
             do {
@@ -78,7 +77,6 @@ public class RecursiveQuadrant {
                 timeline.getKeyFrames().add(keyFrame);
                 keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, startY, endY, grid));
                 timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
             }else{
                 keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, startY, rO, grid));
                 timeline.getKeyFrames().add(keyFrame);
@@ -88,10 +86,11 @@ public class RecursiveQuadrant {
                 timeline.getKeyFrames().add(keyFrame);
                 keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, rO, endY, grid));
                 timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
 
             }
         }
 
+        timeline.play();
+        timeline.setOnFinished(e -> Controller.setAnimationActive(false));
     }
 }

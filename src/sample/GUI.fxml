@@ -17,7 +17,6 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Solver">
             <items>
-              <MenuItem fx:id="solveRandomly" mnemonicParsing="false" onAction="#solveRandomly" text="Solve Randomly" />
                   <MenuItem fx:id="breadthFirstSeach" mnemonicParsing="false" onAction="#breadthFirstSearch" text="Breadth First Search" />
                   <MenuItem fx:id="GreedySearch" mnemonicParsing="false" onAction="#greedySearch" text="Greedy Best First Search" />
             </items>
