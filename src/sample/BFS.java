@@ -36,7 +36,7 @@ public class BFS {
 
         Timeline tl=new Timeline();
         Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(180);
+        Duration pause = Duration.millis(100);
         KeyFrame keyFrame;
         for(int j=0;j<i;j++){
             timepoint = timepoint.add(pause);
@@ -53,7 +53,7 @@ public class BFS {
         int endNodeX=0, endNodeY=0;
         boolean found=false;
         Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(10);
+        Duration pause = Duration.millis(20);
         KeyFrame keyFrame;
         Coord[] prev=new Coord[10000];
         ArrayList<Coord> visited=new ArrayList<>();

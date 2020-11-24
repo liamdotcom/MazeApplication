@@ -3,6 +3,8 @@ package sample;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -12,19 +14,21 @@ import java.util.Random;
 
 public class Controller {
 
-    private int ySize=28;
-    private int xSize=50;
+    private static int ySize=28;
+    private static int xSize=50;
     @FXML
     AnchorPane anchor;
-    Rectangle[][] grid=new Rectangle[ySize][xSize];
+    private static Rectangle[][] grid=new Rectangle[ySize][xSize];
 
 
     private boolean isGrid=false;
     private boolean isMaze=false;
-    private boolean isNodes=false;
+    private static boolean isNodes=false;
     private boolean isSolved=false;
     private static boolean animationActive=false;
-    private int startNodeX=0, startNodeY=0, endNodeX=0, endNodeY=0;
+    private static int startNodeX=0, startNodeY=0, endNodeX=0, endNodeY=0;
+
+
 
     public static void setAnimationActive(boolean state){
         animationActive=state;
@@ -56,6 +60,9 @@ public class Controller {
 
     public void generateStartAndEnd(ActionEvent actionEvent){
         if(!animationActive) {
+            if(isSolved){
+                resetToUnsolved();
+            }
             int startX, startY, endX, endY;
             if (isNodes) {
                 grid[startNodeY][startNodeX].setFill(Color.WHITE);
@@ -72,6 +79,41 @@ public class Controller {
             grid[endY][endX].setFill(Color.RED);
             isNodesSet(startX, startY, endX, endY);
         }
+    }
+
+    public static void setStart(double x, double y){
+        int xCoord= (int) (x/20);
+        int yCoord= (int) ((y-28)/20);
+        startNodeX=xCoord;
+        startNodeY=yCoord;
+        grid[yCoord][xCoord].setFill(Color.BLUE);
+        var sctr = new ScaleTransition(Duration.millis(1000), grid[yCoord][xCoord]);
+        Main.setDefineStart(false);
+        sctr.setByX(0.2);
+        sctr.setByY(0.2);
+        sctr.setCycleCount(2);
+        sctr.setAutoReverse(true);
+        sctr.play();
+        sctr.setOnFinished(e ->  Main.setDefineEnd(true));
+
+    }
+
+    public static void setEnd(double x, double y){
+        int xCoord= (int) (x/20);
+        int yCoord= (int) ((y-28)/20);
+        endNodeX=xCoord;
+        endNodeY=yCoord;
+        grid[yCoord][xCoord].setFill(Color.RED);
+        var sctr = new ScaleTransition(Duration.millis(1000), grid[yCoord][xCoord]);
+        Main.setDefineStart(false);
+        sctr.setByX(0.2);
+        sctr.setByY(0.2);
+        sctr.setCycleCount(2);
+        sctr.setAutoReverse(true);
+        sctr.play();
+        sctr.setOnFinished(e ->  Main.setDefineEnd(false));
+        isNodes=true;
+        animationActive=false;
     }
 
     //clears old grid if new one is being generated:
@@ -129,10 +171,7 @@ public class Controller {
         }
     }
 
-
-
     //maze generation algorithims:
-
     public void newGrid(){
         clearGrid();
         for(int j=0;j<ySize;j++) {
@@ -153,7 +192,6 @@ public class Controller {
         isGridSet();
         outline();
     }
-
 
     //Outine the maze:
     public void outline(){
@@ -177,7 +215,6 @@ public class Controller {
         }
     }
 
-
     //maze solving algorithims:
 
     public void breadthFirstSearch(ActionEvent actionEvent) {
@@ -192,7 +229,6 @@ public class Controller {
             isSolved=true;
         }
     }
-
 
     public void greedySearch(ActionEvent actionEvent) {
 
@@ -210,7 +246,6 @@ public class Controller {
 
     }
 
-
     public void resetToUnsolved(){
         for(int i=0;i<ySize;i++){
             for(int j=0;j<xSize;j++){
@@ -226,6 +261,18 @@ public class Controller {
             }
         }
         isSolved=false;
+    }
+
+    public void startPlot(ActionEvent actionEvent) {
+        if(isSolved){
+            resetToUnsolved();
+        }
+        if(isNodes){
+            grid[startNodeY][startNodeX].setFill(Color.WHITE);
+            grid[endNodeY][endNodeX].setFill(Color.WHITE);
+        }
+        Main.setDefineStart(true);
+        animationActive=true;
     }
 
 }

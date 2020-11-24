@@ -23,7 +23,7 @@ public class GreedySearch {
     }
 
     public static void reconstructPath(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, Coord[] prev){
-        grid[y][x].setFill(Color.AQUAMARINE);
+        grid[y][x].setFill(Color.DARKOLIVEGREEN);
         Coord start=new Coord(y, x);
         Coord iterator=new Coord(endNodeY, endNodeX);
         Coord[] path=new Coord[10000];
@@ -148,7 +148,7 @@ public class GreedySearch {
 
     public static void visit(Rectangle[][] grid, Coord c){
         if(grid[c.getY()][c.getX()].getFill()==Color.LAWNGREEN){
-            grid[c.getY()][c.getX()].setFill(Color.AQUAMARINE);
+            grid[c.getY()][c.getX()].setFill(Color.DARKOLIVEGREEN);
         }else {
             grid[c.getY()][c.getX()].setFill(Color.LAWNGREEN);
         }
