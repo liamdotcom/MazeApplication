@@ -14,6 +14,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#generateMaze2" text="Generate Maze (Prim's Algorithim)" />
                   <MenuItem fx:id="GenerateStartAndEnd" mnemonicParsing="false" onAction="#generateStartAndEnd" text="Generate Start and End Node" />
                   <MenuItem mnemonicParsing="false" onAction="#startPlot" text="Plot Start and End Node" />
+                  <MenuItem mnemonicParsing="false" onAction="#toggleDraw" text="Toggle Draw Mode" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Solver">

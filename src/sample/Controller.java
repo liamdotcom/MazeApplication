@@ -3,8 +3,6 @@ package sample;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -53,6 +51,7 @@ public class Controller {
     //generates new grid and populates grid array appropriately
     public void generateGrid(ActionEvent actionEvent) {
         if(!animationActive){
+            Main.setDraw(false);
             newGrid();
         }
 
@@ -60,6 +59,7 @@ public class Controller {
 
     public void generateStartAndEnd(ActionEvent actionEvent){
         if(!animationActive) {
+            Main.setDraw(false);
             if(isSolved){
                 resetToUnsolved();
             }
@@ -132,6 +132,7 @@ public class Controller {
 
     //Recursive Quadrant maze generator:
     public void generateMaze1(ActionEvent actionEvent) {
+        Main.setDraw(false);
         if(!animationActive) {
             isSolved=false;
             if (isNodes) {
@@ -153,6 +154,7 @@ public class Controller {
 
     //Prim's Algorithim maze generator:
     public void generateMaze2(ActionEvent actionEvent) {
+        Main.setDraw(false);
         if(!animationActive) {
             isSolved=false;
             if (isNodes) {
@@ -218,6 +220,7 @@ public class Controller {
     //maze solving algorithims:
 
     public void breadthFirstSearch(ActionEvent actionEvent) {
+        Main.setDraw(false);
         if(!isNodes){
             generateStartAndEnd(actionEvent);
         }
@@ -231,7 +234,7 @@ public class Controller {
     }
 
     public void greedySearch(ActionEvent actionEvent) {
-
+        Main.setDraw(false);
         if (!isNodes) {
             generateStartAndEnd(actionEvent);
         }
@@ -271,10 +274,22 @@ public class Controller {
             grid[startNodeY][startNodeX].setFill(Color.WHITE);
             grid[endNodeY][endNodeX].setFill(Color.WHITE);
         }
+        Main.setDraw(false);
         Main.setDefineStart(true);
         animationActive=true;
     }
 
+    public void toggleDraw(ActionEvent actionEvent) {
+        if(!animationActive) {
+            Main.toggleDraw();
+        }
+    }
+
+    public static void draw(double x, double y){
+        int xCoord= (int) (x/20);
+        int yCoord= (int) ((y-28)/20);
+        grid[yCoord][xCoord].setFill(Color.BLACK);
+    }
 }
 
 

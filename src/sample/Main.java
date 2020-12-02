@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private static boolean defineStart=false, defineEnd=false;
+    private static boolean defineStart=false, defineEnd=false, draw=false;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -30,6 +30,15 @@ public class Main extends Application {
                 }
             }
         });
+        
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(draw){
+                    Controller.draw(mouseEvent.getX(), mouseEvent.getY());
+                }
+            }
+        });
 
     }
 
@@ -45,6 +54,18 @@ public class Main extends Application {
 
     public static void setDefineEnd(boolean state){
         defineEnd=state;
+    }
+
+    public static void toggleDraw(){
+        if(draw==true){
+            draw=false;
+        }else{
+            draw=true;
+        }
+    }
+
+    public static void setDraw(boolean state){
+        draw=state;
     }
 
 }
