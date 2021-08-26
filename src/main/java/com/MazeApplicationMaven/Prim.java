@@ -1,4 +1,4 @@
-package sample;
+package com.MazeApplicationMaven;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -10,8 +10,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Prim {
 
-    public static void generatePrim(Rectangle[][] grid, int xSize, int ySize){
-        Controller.setAnimationActive(true);
+    Controller controller;
+
+    public void generatePrim(Rectangle[][] grid, int xSize, int ySize, Controller controllerparsed){
+        controller = controllerparsed;
+        controller.setAnimationActive(true);
         Timeline tl=new Timeline();
         Duration timepoint = Duration.ZERO ;
         Duration pause = Duration.millis(3);
@@ -33,7 +36,7 @@ public class Prim {
 
     }
 
-    public static void startGen(Rectangle[][] grid, Coord start, int xSize, int ySize){
+    public void startGen(Rectangle[][] grid, Coord start, int xSize, int ySize){
         Timeline tl=new Timeline();
         Duration timepoint = Duration.ZERO ;
         Duration pause = Duration.millis(10);
@@ -53,7 +56,7 @@ public class Prim {
             }
         }
         tl.play();
-        tl.setOnFinished(e -> Controller.setAnimationActive(false));
+        tl.setOnFinished(e -> controller.setAnimationActive(false));
     }
 
     public static boolean makePassage(Rectangle[][] grid, Coord c, ArrayList<Coord> visited){

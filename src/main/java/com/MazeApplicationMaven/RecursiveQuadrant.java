@@ -1,4 +1,4 @@
-package sample;
+package com.MazeApplicationMaven;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -10,8 +10,8 @@ import java.util.Random;
 
 public class RecursiveQuadrant {
 
-    public static void recursiveQuadrant(int startX, int endX, int startY, int endY, Rectangle[][] grid){
-        Controller.setAnimationActive(true);
+    public void recursiveQuadrant(int startX, int endX, int startY, int endY, Rectangle[][] grid, Controller controller){
+        controller.setAnimationActive(true);
         Random rand=new Random();
         KeyFrame keyFrame;
         int randomY, randomX, randomOpening;
@@ -41,18 +41,18 @@ public class RecursiveQuadrant {
             int rY=randomY;
             int rO=randomOpening;
             if(randomOpening==endX-1 || randomOpening==startX+1) {
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, endX, startY, rY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, endX, startY, rY, grid, controller));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, endX, rY, endY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, endX, rY, endY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
             }else{
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, startY, rY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, startY, rY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, startY, rY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, startY, rY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, rY, endY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rO, rY, endY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, rY, endY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rO, endX, rY, endY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
             }
         }else{//vertical bisection
@@ -73,24 +73,24 @@ public class RecursiveQuadrant {
             int rX=randomX;
             int rO=randomOpening;
             if(randomOpening==endY-1 || randomOpening==startY+1) {
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, startY, endY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, startY, endY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, startY, endY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, startY, endY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
             }else{
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, startY, rO, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, startY, rO, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, startY, rO, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, startY, rO, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, rO, endY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(startX, rX, rO, endY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
-                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, rO, endY, grid));
+                keyFrame = new KeyFrame(timepoint, e -> recursiveQuadrant(rX, endX, rO, endY, grid,controller));
                 timeline.getKeyFrames().add(keyFrame);
 
             }
         }
 
         timeline.play();
-        timeline.setOnFinished(e -> Controller.setAnimationActive(false));
+        timeline.setOnFinished(e -> controller.setAnimationActive(false));
     }
 }

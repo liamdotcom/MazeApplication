@@ -1,8 +1,9 @@
-package sample;
+package com.MazeApplicationMaven;
 
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -16,6 +17,10 @@ public class Controller {
     private static int xSize=50;
     @FXML
     AnchorPane anchor;
+    @FXML
+    Label animationState;
+    @FXML
+    Label drawState;
     private static Rectangle[][] grid=new Rectangle[ySize][xSize];
 
 
@@ -26,10 +31,12 @@ public class Controller {
     private static boolean animationActive=false;
     private static int startNodeX=0, startNodeY=0, endNodeX=0, endNodeY=0;
 
-
-
-    public static void setAnimationActive(boolean state){
+    public void setAnimationActive(boolean state){
         animationActive=state;
+        if(state==true)
+            animationState.setTextFill(Color.GREEN);
+        else
+            animationState.setTextFill(Color.RED);
     }
 
     private void isGridSet(){
@@ -51,7 +58,8 @@ public class Controller {
     //generates new grid and populates grid array appropriately
     public void generateGrid(ActionEvent actionEvent) {
         if(!animationActive){
-            Main.setDraw(false);
+            if(drawState.getTextFill().equals(Color.GREEN))
+                toggleDraw(actionEvent);;
             newGrid();
         }
 
@@ -59,7 +67,8 @@ public class Controller {
 
     public void generateStartAndEnd(ActionEvent actionEvent){
         if(!animationActive) {
-            Main.setDraw(false);
+            if(drawState.getTextFill().equals(Color.GREEN))
+                toggleDraw(actionEvent);
             if(isSolved){
                 resetToUnsolved();
             }
@@ -81,7 +90,7 @@ public class Controller {
         }
     }
 
-    public static void setStart(double x, double y){
+    public void setStart(double x, double y){
         int xCoord= (int) (x/20);
         int yCoord= (int) ((y-28)/20);
         startNodeX=xCoord;
@@ -98,7 +107,7 @@ public class Controller {
 
     }
 
-    public static void setEnd(double x, double y){
+    public void setEnd(double x, double y){
         int xCoord= (int) (x/20);
         int yCoord= (int) ((y-28)/20);
         endNodeX=xCoord;
@@ -132,7 +141,8 @@ public class Controller {
 
     //Recursive Quadrant maze generator:
     public void generateMaze1(ActionEvent actionEvent) {
-        Main.setDraw(false);
+        if(drawState.getTextFill().equals(Color.GREEN))
+            toggleDraw(actionEvent);
         if(!animationActive) {
             isSolved=false;
             if (isNodes) {
@@ -148,13 +158,15 @@ public class Controller {
             }
             isMazeSet();
             outline();
-            RecursiveQuadrant.recursiveQuadrant(0, xSize - 1, 0, ySize - 1, grid);
+            RecursiveQuadrant rq = new RecursiveQuadrant();
+            rq.recursiveQuadrant(0, xSize - 1, 0, ySize - 1, grid, this);
         }
     }
 
     //Prim's Algorithim maze generator:
     public void generateMaze2(ActionEvent actionEvent) {
-        Main.setDraw(false);
+        if(drawState.getTextFill().equals(Color.GREEN))
+            toggleDraw(actionEvent);
         if(!animationActive) {
             isSolved=false;
             if (isNodes) {
@@ -169,7 +181,8 @@ public class Controller {
                 generateGrid(actionEvent);
             }
             isMazeSet();
-            Prim.generatePrim(grid, xSize, ySize);
+            Prim prim = new Prim();
+            prim.generatePrim(grid, xSize, ySize, this);
         }
     }
 
@@ -220,7 +233,8 @@ public class Controller {
     //maze solving algorithims:
 
     public void breadthFirstSearch(ActionEvent actionEvent) {
-        Main.setDraw(false);
+        if(drawState.getTextFill().equals(Color.GREEN))
+            toggleDraw(actionEvent);
         if(!isNodes){
             generateStartAndEnd(actionEvent);
         }
@@ -228,13 +242,15 @@ public class Controller {
             if(isSolved){
                 resetToUnsolved();
             }
-            BFS.solveBFS(grid, startNodeX, startNodeY, xSize, ySize);
+            BFS bfs = new BFS();
+            bfs.solveBFS(grid, startNodeX, startNodeY, xSize, ySize, this);
             isSolved=true;
         }
     }
 
     public void greedySearch(ActionEvent actionEvent) {
-        Main.setDraw(false);
+        if(drawState.getTextFill().equals(Color.GREEN))
+            toggleDraw(actionEvent);
         if (!isNodes) {
             generateStartAndEnd(actionEvent);
         }
@@ -243,7 +259,8 @@ public class Controller {
             if(isSolved) {
                 resetToUnsolved();
             }
-            GreedySearch.solveGBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY, xSize, ySize);
+            GreedySearch gs = new GreedySearch();
+            gs.solveGBFS(grid, startNodeX, startNodeY, endNodeX, endNodeY, xSize, ySize, this);
             isSolved=true;
         }
 
@@ -274,7 +291,8 @@ public class Controller {
             grid[startNodeY][startNodeX].setFill(Color.WHITE);
             grid[endNodeY][endNodeX].setFill(Color.WHITE);
         }
-        Main.setDraw(false);
+        if(drawState.getTextFill().equals(Color.GREEN))
+            toggleDraw(actionEvent);
         Main.setDefineStart(true);
         animationActive=true;
     }
@@ -282,6 +300,10 @@ public class Controller {
     public void toggleDraw(ActionEvent actionEvent) {
         if(!animationActive) {
             Main.toggleDraw();
+            if(drawState.getTextFill().equals(Color.RED))
+                drawState.setTextFill(Color.GREEN);
+            else
+                drawState.setTextFill(Color.RED);
         }
     }
 

@@ -1,4 +1,4 @@
-package sample;
+package com.MazeApplicationMaven;
 
 public class Coord {
     int x;

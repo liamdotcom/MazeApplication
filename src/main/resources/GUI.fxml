@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchor" prefHeight="390.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.MazeApplicationMaven.Controller">
+    <children>
+        <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="1000.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Maze">
+                    <items>
+                        <MenuItem fx:id="generateGrid" mnemonicParsing="false" onAction="#generateGrid" text="Generate Grid" />
+                        <MenuItem fx:id="generateMaze" mnemonicParsing="false" onAction="#generateMaze1" text="Generate Maze (Quadrant Division)" />
+                        <MenuItem mnemonicParsing="false" onAction="#generateMaze2" text="Generate Maze (Prim's Algorithim)" />
+                        <MenuItem fx:id="GenerateStartAndEnd" mnemonicParsing="false" onAction="#generateStartAndEnd" text="Generate Start and End Node" />
+                        <MenuItem mnemonicParsing="false" onAction="#startPlot" text="Plot Start and End Node" />
+                        <MenuItem mnemonicParsing="false" onAction="#toggleDraw" text="Toggle Draw Mode" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Solver">
+                    <items>
+                        <MenuItem fx:id="breadthFirstSeach" mnemonicParsing="false" onAction="#breadthFirstSearch" text="Breadth First Search" />
+                        <MenuItem fx:id="GreedySearch" mnemonicParsing="false" onAction="#greedySearch" text="Greedy Best First Search" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+      <Label id="animationState" fx:id="animationState" layoutX="160.0" layoutY="5.4" text="Animation" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="13.0" />
+         </font></Label>
+        <Label fx:id="drawState" layoutX="240.0" layoutY="5.4" text="Draw Mode" textAlignment="CENTER" textFill="RED">
+            <font>
+                <Font size="13.0" />
+            </font></Label>
+    </children>
+</AnchorPane>

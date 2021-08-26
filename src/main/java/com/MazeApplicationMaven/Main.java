@@ -1,4 +1,4 @@
-package sample;
+package com.MazeApplicationMaven;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -14,7 +14,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
+        Controller controller = new Controller();
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI.fxml"));
         primaryStage.setTitle("Maze Application");
         primaryStage.setScene(new Scene(root, 1000, 588));
         primaryStage.show();
@@ -23,10 +24,13 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 if(defineStart){
-                    Controller.setStart(event.getX(), event.getY());
+                    controller.setStart(event.getX(), event.getY());
                 }
                 if(defineEnd){
-                    Controller.setEnd(event.getX(), event.getY());
+                    controller.setEnd(event.getX(), event.getY());
+                }
+                if(draw){
+                    controller.draw(event.getX(), event.getY());
                 }
             }
         });
@@ -35,14 +39,12 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if(draw){
-                    Controller.draw(mouseEvent.getX(), mouseEvent.getY());
+                    controller.draw(mouseEvent.getX(), mouseEvent.getY());
                 }
             }
         });
 
     }
-
-
 
     public static void main(String[] args) {
         launch(args);
@@ -62,10 +64,6 @@ public class Main extends Application {
         }else{
             draw=true;
         }
-    }
-
-    public static void setDraw(boolean state){
-        draw=state;
     }
 
 }

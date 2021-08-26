@@ -1,27 +1,30 @@
-package sample;
+package com.MazeApplicationMaven;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
-public class BFS {
+import java.util.ArrayList;
+import static java.lang.Math.*;
+
+public class GreedySearch {
 
     static int xSize;
     static int ySize;
-
-    public static void solveBFS(Rectangle[][] grid, int x, int y, int xS, int yS){
+    Controller controller;
+    public void solveGBFS(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, int xS, int yS, Controller controllerParsed){
+        controller = controllerParsed;
         xSize=xS;
         ySize=yS;
-        Controller.setAnimationActive(true);
-        solve(grid, x, y);
+        controller.setAnimationActive(true);
+        solve(grid, x, y,endNodeX ,endNodeY);
+
     }
 
-    public static void reconstructPath(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, Coord[] prev){
+    public void reconstructPath(Rectangle[][] grid, int x, int y, int endNodeX, int endNodeY, Coord[] prev){
+        grid[y][x].setFill(Color.DARKOLIVEGREEN);
         Coord start=new Coord(y, x);
         Coord iterator=new Coord(endNodeY, endNodeX);
         Coord[] path=new Coord[10000];
@@ -36,7 +39,7 @@ public class BFS {
 
         Timeline tl=new Timeline();
         Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(100);
+        Duration pause = Duration.millis(180);
         KeyFrame keyFrame;
         for(int j=0;j<i;j++){
             timepoint = timepoint.add(pause);
@@ -45,33 +48,35 @@ public class BFS {
             tl.getKeyFrames().add(keyFrame);
         }
         tl.play();
-        tl.setOnFinished(e -> Controller.setAnimationActive(false));
+        tl.setOnFinished(e -> controller.setAnimationActive(false));
     }
 
-    public static void solve(Rectangle[][] grid, int x, int y){
+    public void solve(Rectangle[][] grid, int x, int y, int actualEndNodeX, int actualEndNodeY){
         Timeline tl=new Timeline();
         int endNodeX=0, endNodeY=0;
         boolean found=false;
         Duration timepoint = Duration.ZERO ;
-        Duration pause = Duration.millis(20);
+        Duration pause = Duration.millis(60);
         KeyFrame keyFrame;
         Coord[] prev=new Coord[10000];
         ArrayList<Coord> visited=new ArrayList<>();
-        Queue<Rectangle> q=new LinkedList<>();
+        ArrayList<Rectangle> q=new ArrayList<>();
         q.add(grid[y][x]);
         while(!q.isEmpty() && !found){
             timepoint = timepoint.add(pause);
-            Rectangle r=q.remove();
+            reorderQ(q, actualEndNodeX, actualEndNodeY, grid);
+            Rectangle r=q.get(0);
+            q.remove(0);
             Coord c=findRect(r, grid);
             keyFrame = new KeyFrame(timepoint, e -> visit(grid, c));
             tl.getKeyFrames().add(keyFrame);
-            if(grid[c.getY()][c.getX()].getFill()==Color.RED){
+            if(grid[c.getY()][c.getX()].getFill()== Color.RED){
                 found=true;
                 endNodeX=c.getX();
                 endNodeY=c.getY();
             }
             addNeighbours(grid, c.getX(), c.getY(), q, prev, visited);
-            }
+        }
         tl.play();
 
         int finalEndNodeX = endNodeX;
@@ -79,8 +84,27 @@ public class BFS {
         tl.setOnFinished(e -> reconstructPath(grid, x, y, finalEndNodeX, finalEndNodeY, prev));
     }
 
+    public void reorderQ(ArrayList<Rectangle> q, int endNodeX, int endNodeY, Rectangle[][] grid){
+        double distance=0, min=10000000;
+        int minIndex=0;
+        for(int i=0;i<q.size();i++){
+            distance=sqrt(pow(endNodeX-findRect(q.get(i), grid).getX(), 2) + pow(endNodeY-findRect(q.get(i), grid).getY(), 2));
+            if(distance<min){
+                min=distance;
+                minIndex=i;
+            }
+        }
+        if(minIndex==0){
+            return;
+        }
+        Rectangle tempR=q.get(minIndex);
+        q.set(minIndex, q.get(0));
+        q.set(0, tempR);
+        return;
+    }
 
-    public static void addNeighbours(Rectangle[][] grid, int x, int y, Queue<Rectangle> q, Coord[] prev, ArrayList<Coord> visited){
+
+    public void addNeighbours(Rectangle[][] grid, int x, int y, ArrayList<Rectangle> q, Coord[] prev, ArrayList<Coord> visited){
         Coord parent=new Coord(y, x);
         if(grid[y][x-1].getFill()!=Color.BLACK && !hasCoord(visited, new Coord(y, x-1))){//left
             visited.add(new Coord(y, x-1));
@@ -110,7 +134,7 @@ public class BFS {
 
     public static Coord findRect(Rectangle rect, Rectangle[][] grid){
         for(int y=0;y<ySize;y++){
-            for(int x=0;x<xSize-1;x++){
+            for(int x=0;x<xSize;x++){
                 if(rect.getX()==grid[y][x].getX() && rect.getY()==grid[y][x].getY()){
                     return new Coord(y,x);
                 }
@@ -124,10 +148,10 @@ public class BFS {
     }
 
     public static void visit(Rectangle[][] grid, Coord c){
-        if(grid[c.getY()][c.getX()].getFill()==Color.DARKBLUE){
-            grid[c.getY()][c.getX()].setFill(Color.DARKORCHID);
+        if(grid[c.getY()][c.getX()].getFill()==Color.LAWNGREEN){
+            grid[c.getY()][c.getX()].setFill(Color.DARKOLIVEGREEN);
         }else {
-            grid[c.getY()][c.getX()].setFill(Color.DARKBLUE);
+            grid[c.getY()][c.getX()].setFill(Color.LAWNGREEN);
         }
     }
 
@@ -140,5 +164,3 @@ public class BFS {
         return false;
     }
 }
-
-
