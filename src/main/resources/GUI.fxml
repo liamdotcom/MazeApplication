@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anchor" prefHeight="390.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.MazeApplicationMaven.Controller">
+<AnchorPane fx:id="anchor" prefHeight="390.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.MazeApplicationMaven.Controller">
     <children>
         <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="1000.0">
             <menus>
@@ -21,6 +21,7 @@
                 <Menu mnemonicParsing="false" text="Solver">
                     <items>
                         <MenuItem fx:id="breadthFirstSeach" mnemonicParsing="false" onAction="#breadthFirstSearch" text="Breadth First Search" />
+                  <MenuItem fx:id="depthFirstSearch" mnemonicParsing="false" onAction="#depthFirstSearch" text="Depth First Search" />
                         <MenuItem fx:id="GreedySearch" mnemonicParsing="false" onAction="#greedySearch" text="Greedy Best First Search" />
                     </items>
                 </Menu>

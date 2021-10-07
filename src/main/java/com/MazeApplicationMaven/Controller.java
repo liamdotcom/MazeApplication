@@ -312,6 +312,22 @@ public class Controller {
         int yCoord= (int) ((y-28)/20);
         grid[yCoord][xCoord].setFill(Color.BLACK);
     }
+
+    public void depthFirstSearch(ActionEvent actionEvent) {
+        if(drawState.getTextFill().equals(Color.GREEN))
+            toggleDraw(actionEvent);
+        if(!isNodes){
+            generateStartAndEnd(actionEvent);
+        }
+        if(!animationActive) {
+            if(isSolved){
+                resetToUnsolved();
+            }
+            DFS dfs = new DFS();
+            dfs.solveDFS(grid, startNodeX, startNodeY, xSize, ySize, this);
+            isSolved=true;
+        }
+    }
 }
 
 
